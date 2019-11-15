@@ -28,7 +28,21 @@ public class EmployeeDAO implements EmployeeDAOImp {
 
     @Override
     public List<Employee> findLimit(int startPosition) {
-        return employeeRepository.findAll().subList(startPosition, startPosition+2);
+        List<Employee> employees;
+        try {
+            int size = employeeRepository.findAll().size();
+            int fromIndex = startPosition*this.MAX_RESULTS;
+            int toIndex = startPosition*this.MAX_RESULTS+this.MAX_RESULTS;
+            if (size>toIndex){
+                employees = employeeRepository.findAll().subList(fromIndex, toIndex);
+            }else {
+                employees = employeeRepository.findAll().subList(fromIndex, size);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            employees = null;
+        }
+        return employees;
     }
 
     @Override
