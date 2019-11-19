@@ -1,6 +1,5 @@
 package com.thecoffeshop.DTO;
 
-
 import com.thecoffeshop.entity.Employee;
 
 public class EmployeeDTO {

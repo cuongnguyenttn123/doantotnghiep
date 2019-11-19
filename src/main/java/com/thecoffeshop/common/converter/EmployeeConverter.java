@@ -11,16 +11,16 @@ public class EmployeeConverter {
     public List<Employee> converterIsDelete(List<Employee> employees){
         List<Employee> employees1 = new ArrayList<>();
         for (Employee x: employees) {
-            if (x.getDelete()!=true){
+            if (x.getIsdelete()!=true){
                 Employee employee = new Employee();
-                employee.setEmployeeId(x.getEmployeeId());
+                employee.setEmployeeid(x.getEmployeeid());
                 employee.setName(x.getName());
-                employee.setSex(x.isSex());
-                employee.setAddRess(x.getAddRess());
-                employee.setUserName(x.getUserName());
-                employee.setPassWord(x.getPassWord());
-                employee.setDelete(x.getDelete());
-                employee.setUpDateAt(x.getUpDateAt());
+                employee.setSex(x.getSex());
+                employee.setAddress(x.getAddress());
+                employee.setUsename(x.getUsename());
+                employee.setPassword(x.getPassword());
+                employee.setIsdelete(x.getIsdelete());
+                employee.setUpdateat(x.getUpdateat());
                 employees1.add(employee);
             }
         }

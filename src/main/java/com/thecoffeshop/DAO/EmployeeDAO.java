@@ -7,15 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.Transactional;
-
 import java.util.List;
 
 @Repository
-@org.springframework.transaction.annotation.Transactional
+@Transactional(rollbackFor = Exception.class)
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class EmployeeDAO implements EmployeeDAOImp {
     @Autowired
@@ -23,7 +22,12 @@ public class EmployeeDAO implements EmployeeDAOImp {
 
     @Override
     public List<Employee> findAll() {
-        return employeeRepository.findAll();
+        return employeeRepository.findAllByIsdelete(this.IS_NOT_DELETE);
+    }
+
+    @Override
+    public List<Employee> findAllLimit(int start) {
+        return employeeRepository.findAllLimit(this.IS_NOT_DELETE,start,this.MAX_RESULTS);
     }
 
     @Override
@@ -40,6 +44,7 @@ public class EmployeeDAO implements EmployeeDAOImp {
             }
         }catch (Exception e){
             e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             employees = null;
         }
         return employees;
@@ -47,12 +52,13 @@ public class EmployeeDAO implements EmployeeDAOImp {
 
     @Override
     public Boolean addEmployee(Employee employee) {
-        Boolean aBoolean = false;
+        Boolean aBoolean;
         try {
             employeeRepository.save(employee);
             aBoolean = true;
         }catch (Exception e){
             e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             aBoolean = false;
         }
         return aBoolean;
@@ -63,10 +69,11 @@ public class EmployeeDAO implements EmployeeDAOImp {
         String employeeId = "";
         Employee employee;
         try{
-            employee = employeeRepository.findByUserNameAndPassWord(username, password);
-            employeeId = employee.getEmployeeId();
+            employee = employeeRepository.findByUsenameAndPassword(username, password);
+            employeeId = employee.getEmployeeid();
         }catch (Exception e){
             e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
         return employeeId;
     }
@@ -78,10 +85,10 @@ public class EmployeeDAO implements EmployeeDAOImp {
 
     @Override
     public Boolean checkExistUseName(String usename) {
-        Boolean aBoolean = false;
+        Boolean aBoolean;
         Employee employee;
         try {
-            employee = employeeRepository.findByUserName(usename);
+            employee = employeeRepository.findByUsename(usename);
             if (employee != null){
                 aBoolean = true;
             } else {
@@ -89,12 +96,14 @@ public class EmployeeDAO implements EmployeeDAOImp {
             }
         }catch (Exception e){
             e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             aBoolean = false;
         }
         return aBoolean;
     }
 
     @Override
+    @Transactional
     public Boolean deleteEmployee(String employeeid) {
         Boolean aBoolean = false;
         try {
@@ -102,7 +111,7 @@ public class EmployeeDAO implements EmployeeDAOImp {
             aBoolean = true;
         }catch (Exception e){
             e.printStackTrace();
-
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
         return aBoolean;
     }
@@ -115,7 +124,7 @@ public class EmployeeDAO implements EmployeeDAOImp {
             employeeRepository.save(employee);
             aBoolean = true;
         }catch (Exception e){
-
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();
             aBoolean = false;
         }
