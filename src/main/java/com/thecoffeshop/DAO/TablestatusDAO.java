@@ -33,17 +33,17 @@ public class TablestatusDAO implements TablestatusDAOImp {
 
 	@Override
 	public List<Tablestatus> findAll() {
-		return null;
+		return tablestatusRepository.findAllByIsdelete(this.IS_NOT_DELETE);
 	}
 
 	@Override
-	public List<Tablestatus> findLimit(int startPosition) {
-		return null;
+	public List<Tablestatus> findLimit(int start) {
+		return tablestatusRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
 	}
 
 	@Override
 	public Tablestatus getInfoById(int tablestatusid) {
-		return null;
+		return tablestatusRepository.findById(tablestatusid).get();
 	}
 
 	@Override

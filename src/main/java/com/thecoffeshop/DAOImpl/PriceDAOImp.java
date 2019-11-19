@@ -10,7 +10,7 @@ public interface PriceDAOImp extends CommonDAOImp {
 
 	public Boolean addPrice(Price price);
 	
-	public Price getInfoById(String prId);
+	public Price getInfoById(Integer prId);
 	
 	public Price getInfoByProduct(String PId);
 

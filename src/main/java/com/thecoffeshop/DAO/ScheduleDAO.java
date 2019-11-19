@@ -33,17 +33,17 @@ public class ScheduleDAO implements ScheduleDAOImp {
 
 	@Override
 	public List<Schedule> findAll() {
-		return null;
+		return scheduleRepository.findAllByIsdelete(this.IS_NOT_DELETE);
 	}
 
 	@Override
-	public List<Schedule> findLimit(int startPosition) {
-		return null;
+	public List<Schedule> findLimit(int start) {
+		return scheduleRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
 	}
 
 	@Override
 	public Schedule getInfoById(String scheduleid) {
-		return null;
+		return scheduleRepository.findById(scheduleid).get();
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class PriceService implements PriceDAOImp {
 	}
 
 	@Override
-	public Price getInfoById(String prId) {
+	public Price getInfoById(Integer prId) {
 		return priceDAO.getInfoById(prId);
 	}
 

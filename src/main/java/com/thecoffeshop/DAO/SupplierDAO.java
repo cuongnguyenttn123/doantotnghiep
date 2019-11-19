@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class SupplierDAO implements SupplierDAOImp {
 	SupplierRepository supplierRepository;
 
 	@Override
+	@Transactional
 	public Boolean addSupplier(Supplier supplier) {
 		Boolean aBoolean;
 		try{
@@ -33,25 +35,31 @@ public class SupplierDAO implements SupplierDAOImp {
 
 	@Override
 	public List<Supplier> findAll() {
-		return null;
+		return supplierRepository.findAllByIsdelete(this.IS_NOT_DELETE);
 	}
 
 	@Override
-	public List<Supplier> findLimit(int startPosition) {
-		return null;
+	public List<Supplier> findLimit(int start) {
+		return supplierRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
 	}
 
 	@Override
 	public Supplier getInfoById(int supplierid) {
-		return null;
+		return supplierRepository.findById(supplierid).get();
 	}
 
 	@Override
+	@Transactional
 	public Boolean checkExistByName(String name) {
 		Boolean aBoolean;
+		Supplier supplier;
 		try{
-
-			aBoolean = true;
+			supplier = supplierRepository.findByNameAndIsdelete(name, this.IS_NOT_DELETE);
+			if (supplier != null){
+				aBoolean = true;
+			}else {
+				aBoolean = false;
+			}
 		}catch (Exception e){
 			e.printStackTrace();
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -61,6 +69,7 @@ public class SupplierDAO implements SupplierDAOImp {
 	}
 
 	@Override
+	@Transactional
 	public Boolean deleteSupplier(int supplierid) {
 		Boolean aBoolean;
 		try{
@@ -75,6 +84,7 @@ public class SupplierDAO implements SupplierDAOImp {
 	}
 
 	@Override
+	@Transactional
 	public Boolean editSupplier(Supplier supplier) {
 		Boolean aBoolean;
 		try{

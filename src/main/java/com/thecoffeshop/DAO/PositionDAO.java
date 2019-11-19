@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -33,22 +34,30 @@ public class PositionDAO implements PositionDAOImp {
 
 	@Override
 	public List<Position> findAll() {
-		return null;
+		return positionRepository.findAllByIsdelete(this.IS_NOT_DELETE);
 	}
 
 	@Override
-	public List<Position> findLimit(int startPosition) {
-		return null;
+	public List<Position> findLimit(int start) {
+		return positionRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
 	}
 
 	@Override
 	public Position getInfoById(String positionid) {
-		return null;
+		return positionRepository.findById(positionid).get();
 	}
 
 	@Override
 	public Position getInfoByName(String name) {
-		return null;
+		Position position;
+		try {
+			position = positionRepository.findByIsdeleteAndName(this.IS_NOT_DELETE, name);
+		}catch (Exception e){
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			position = null;
+		}
+		return position;
 	}
 
 	@Override

@@ -33,22 +33,22 @@ public class VoucherDAO implements VoucherDAOImp {
 
 	@Override
 	public List<Voucher> findAll() {
-		return null;
+		return voucherRepository.findAllByIsdelete(this.IS_NOT_DELETE);
 	}
 
 	@Override
-	public List<Voucher> findLimit(int startPosition) {
-		return null;
+	public List<Voucher> findLimit(int start) {
+		return voucherRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
 	}
 
 	@Override
 	public Voucher findById(int voucherid) {
-		return null;
+		return voucherRepository.findById(voucherid).get();
 	}
 
 	@Override
 	public Voucher findByName(String name) {
-		return null;
+		return voucherRepository.findByName(name);
 	}
 
 	@Override

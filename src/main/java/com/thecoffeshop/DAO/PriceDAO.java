@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -33,13 +34,21 @@ public class PriceDAO implements PriceDAOImp {
 	}
 
 	@Override
-	public Price getInfoById(String prId) {
-		return null;
+	public Price getInfoById(Integer prId) {
+		return priceRepository.findById(prId).get();
 	}
 
 	@Override
 	public Price getInfoByProduct(String PId) {
-		return null;
+		Price price;
+		try {
+			price = priceRepository.getInfoByProduct(PId, this.IS_NOT_DELETE);
+		}catch (Exception e){
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			price = null;
+		}
+		return price;
 	}
 
 	@Override
@@ -63,11 +72,24 @@ public class PriceDAO implements PriceDAOImp {
 
 	@Override
 	public Price getNewPrice(String PId) {
-		return null;
+		Date now = new Date();
+		try {
+			Price price = priceRepository.getNewPrice(PId, this.IS_NOT_DELETE, now);
+			return price;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
 	public int getOldPrice(String PId) {
-		return 0;
+		Date now = new Date();
+		try {
+			List<Price> prices = priceRepository.getOldPrice(PId, this.IS_NOT_DELETE, now);
+			Price price = prices.get(0);
+			return price.getPrice();
+		} catch (Exception e) {
+			return 0;
+		}
 	}
 }

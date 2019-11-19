@@ -33,25 +33,30 @@ public class MaterialDAO implements MaterialDAOImp {
 
 	@Override
 	public List<Material> findAll() {
-		return null;
+		return materialRepository.findAllByIsdelete(this.IS_NOT_DELETE);
 	}
 
 	@Override
-	public List<Material> findLimit(int startPosition) {
-		return null;
+	public List<Material> findLimit(int start) {
+		return materialRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
 	}
 
 	@Override
 	public Material getInfoById(int materialid) {
-		return null;
+		return materialRepository.findById(materialid).get();
 	}
 
 	@Override
 	public Boolean checkExistNameMaterial(String name) {
 		Boolean aBoolean;
 		try{
+			Material material = materialRepository.findByIsdeleteAndName(this.IS_NOT_DELETE, name);
+			if (material !=null){
+				aBoolean = true;
+			}else {
+				aBoolean = false;
+			}
 
-			aBoolean = true;
 		}catch (Exception e){
 			e.printStackTrace();
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
