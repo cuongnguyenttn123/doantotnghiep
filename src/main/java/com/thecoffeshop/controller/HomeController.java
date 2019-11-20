@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/home")
 public class HomeController {
     @Autowired
     EmployeeService employeeService;

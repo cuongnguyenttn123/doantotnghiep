@@ -49,7 +49,6 @@ public class PriceService implements PriceDAOImp {
 
 	@Override
 	public int getOldPrice(String PId) {
-
 		return priceDAO.getOldPrice(PId);
 	}
 

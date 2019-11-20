@@ -23,7 +23,9 @@ public class Common implements CommonDAOImp {
 	public static SimpleDateFormat sdfDateField = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public static SimpleDateFormat sdfDateTimeField = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+
+	public static SimpleDateFormat sdfDateTimeField1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
 	public static SimpleDateFormat sdfTimeField = new SimpleDateFormat("hh:mm");
 
 	/**
