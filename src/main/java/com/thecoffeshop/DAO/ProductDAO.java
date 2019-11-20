@@ -58,13 +58,13 @@ public class ProductDAO implements ProductDAOImp {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		try {
 			String hql = "FROM Product p WHERE p.isdelete =:isdelete";
-			if (cgPrdId != null) {
+			if (cgPrdId != null ) {
 				hql = hql + " AND p.categoryproduct =:categoryproduct ";
 			}
-			if (strSearch != null) {
+			if (strSearch != null ) {
 				hql = hql + " AND p.name =:name ";
 			}
-			if (productid != null) {
+			if (productid != null ) {
 				hql = hql + " AND p.productid =:productid ";
 			}
 			System.out.println(hql);
