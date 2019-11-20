@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface CategoryProductRepository extends JpaRepository<Categoryproduct, String>, JpaSpecificationExecutor<Categoryproduct> {
+    Categoryproduct findByIsdeleteAndCategoryproductid(Boolean a, String cgPId);
     List<Categoryproduct> findAllByIsdelete(Boolean aBoolean);
 
     @Query(value = "select * from categoryproduct c where c.isdelete = ?1 limit ?2,?3",

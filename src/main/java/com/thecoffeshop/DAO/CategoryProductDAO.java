@@ -44,7 +44,15 @@ public class CategoryProductDAO implements CategoryProductDAOImp {
 
 	@Override
 	public Categoryproduct getInfoById(String categoryproductid) {
-		return categoryProductRepository.findById(categoryproductid).get();
+		Categoryproduct categoryproduct;
+		try {
+			categoryproduct = categoryProductRepository.findByIsdeleteAndCategoryproductid(this.IS_NOT_DELETE,categoryproductid);
+		}catch (Exception e){
+			categoryproduct = null;
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return categoryproduct;
 	}
 
 	@Override
