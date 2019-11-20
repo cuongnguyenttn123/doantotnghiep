@@ -69,7 +69,7 @@ public class EmployeeDAO implements EmployeeDAOImp {
         String employeeId = "";
         Employee employee;
         try{
-            employee = employeeRepository.findByUsenameAndPassword(username, password);
+            employee = employeeRepository.logIn(username, password);
             employeeId = employee.getEmployeeid();
         }catch (Exception e){
             e.printStackTrace();
