@@ -13,7 +13,7 @@ public interface SupplierRepository extends JpaRepository<Supplier, Integer>, Jp
     List<Supplier> findAllByIsdelete(Boolean aBoolean);
 
     @Query(
-            value = "select * from supplier s where s.isdelete = ? limit ?2, ?3",
+            value = "select * from supplier s where s.isdelete = ?1 limit ?2, ?3",
             nativeQuery = true
     )
     List<Supplier> findAllLimit(Boolean aBoolean, int start, int index);

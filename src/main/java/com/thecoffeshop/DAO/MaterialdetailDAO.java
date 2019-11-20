@@ -9,6 +9,9 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -16,6 +19,9 @@ import java.util.List;
 public class MaterialdetailDAO implements MaterialdetailDAOImp {
 	@Autowired
 	MaterialdetailRepository materialdetailRepository;
+
+	@Autowired
+	EntityManagerFactory entityManagerFactory;
 
 	@Override
 	public int addMaterialdetail(Materialdetail materialdetail) {
@@ -33,17 +39,41 @@ public class MaterialdetailDAO implements MaterialdetailDAOImp {
 
 	@Override
 	public List<Materialdetail> findAll() {
-		return null;
+		return materialdetailRepository.findAllByIsdelete(this.IS_NOT_DELETE);
 	}
 
 	@Override
 	public List<Materialdetail> search(String materialdetailid, String name) {
-		return null;
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		try {
+			String hql = "FROM Materialdetail m WHERE m.quantity > 0 AND m.isdelete =:isdelete";
+			if (!materialdetailid.isEmpty()) {
+				hql = hql + " AND m.materialdetailid =:materialdetailid ";
+			}
+			if (!name.isEmpty()) {
+				hql = hql + " AND m.material.name =:name ";
+			}
+
+			Query query = entityManager.createQuery(hql, Materialdetail.class);
+			query.setParameter("isdelete", this.IS_NOT_DELETE);
+			if (!materialdetailid.isEmpty()) {
+				query.setParameter("materialdetailid", Integer.valueOf(materialdetailid));
+			}
+			if (!name.isEmpty()) {
+				query.setParameter("name", name);
+			}
+			List<Materialdetail> materialdetails = query.getResultList();
+			return materialdetails;
+
+		} catch (Exception e) {
+
+			return null;
+		}
 	}
 
 	@Override
 	public Materialdetail getInfoById(int materialdetailid) {
-		return null;
+		return materialdetailRepository.findByIsdeleteAndMaterialdetailid(this.IS_NOT_DELETE, materialdetailid);
 	}
 
 	@Override

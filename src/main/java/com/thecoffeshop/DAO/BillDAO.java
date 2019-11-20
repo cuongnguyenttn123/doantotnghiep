@@ -2,7 +2,10 @@ package com.thecoffeshop.DAO;
 
 import com.thecoffeshop.DAOImpl.BillDAOImp;
 import com.thecoffeshop.entity.Bill;
+import com.thecoffeshop.entity.Billdetail;
+import com.thecoffeshop.entity.BilldetailId;
 import com.thecoffeshop.repository.BillRepository;
+import com.thecoffeshop.service.BilldetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -11,6 +14,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +25,12 @@ import java.util.List;
 public class BillDAO implements BillDAOImp {
     @Autowired
     BillRepository repository;
+    
+    @Autowired
+    EntityManagerFactory entityManagerFactory;
+
+    @Autowired
+    BilldetailService billdetailService;
 
     @Override
     public int addBill(Bill bill) {
@@ -138,41 +149,146 @@ public class BillDAO implements BillDAOImp {
 
     @Override
     public int getTotalPriceOfBill(int billid) {
-        return 0;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            StringBuilder stringBuilder = new StringBuilder("FROM Billdetail b WHERE b.id.billid =:billid AND b.isdelete =:isdelete");
+            Date startdatetime = getInfoById(billid).getStartdatetime();
+            List<Billdetail> billdetails = entityManager
+                    .createQuery(stringBuilder.toString(), Billdetail.class)
+                    .setParameter("billid", billid).setParameter("isdelete", this.IS_NOT_DELETE).getResultList();
+
+            int totalPrice = 0;
+            for (Billdetail billdetail : billdetails) {
+                String productId = billdetail.getProduct().getProductid();
+                int price = billdetailService.getPriceOfBillDetail(new BilldetailId(productId, billid));
+
+                totalPrice += price;
+            }
+
+            return totalPrice;
+
+        } catch (Exception e) {
+
+            return 0;
+        }
     }
 
     @Override
     public Bill getInfoLastBill(int dinnertableid) {
-        return null;
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            StringBuilder stringBuilder = new StringBuilder("FROM Bill b WHERE b.isdelete =:isdelete AND b.billstatus.billstatusid = 'CTT' AND b.dinnertable.dinnertableid =:dinnertableid AND b.startdatetime <= now() ORDER BY b.startdatetime DESC");
+
+            Bill bill = entityManager.createQuery(stringBuilder.toString(), Bill.class).setParameter("dinnertableid", dinnertableid)
+                    .setParameter("isdelete", this.IS_NOT_DELETE).setFirstResult(0).setMaxResults(1).getSingleResult();
+            return bill;
+        } catch (Exception e) {
+
+            return null;
+        }
     }
 
     @Override
     public int thongkeTongTienTrongNgay(Date date) {
-        return 0;
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            StringBuilder stringBuilder = new StringBuilder("FROM Bill b WHERE  DATE(b.startdatetime) = DATE(:date) AND b.billstatus.billstatusid = 'DTT' AND b.isdelete =:isdelete");
+            List<Bill> bills = entityManager.createQuery(stringBuilder.toString(), Bill.class).setParameter("date", date).setParameter("isdelete", this.IS_NOT_DELETE).getResultList();
+
+            int total = 0;
+            for (Bill bill : bills) {
+                total += getTotalPriceOfBill(bill.getBillid());
+            }
+            return total;
+        } catch (Exception e) {
+
+            return 0;
+        }
     }
 
     @Override
     public int thongkeSoHoaDonTrongNgay(Date date) {
-        return 0;
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            StringBuilder stringBuilder = new StringBuilder("FROM Bill b WHERE  DATE(b.startdatetime) = DATE(:date) AND b.billstatus.billstatusid = 'DTT' AND b.isdelete =:isdelete");
+            List<Bill> bills = entityManager.createQuery(stringBuilder.toString(),Bill.class).setParameter("date", date)
+                    .setParameter("isdelete", this.IS_NOT_DELETE).getResultList();
+            return bills.size();
+        } catch (Exception e) {
+
+            return 0;
+        }
     }
 
     @Override
     public int thongkeTongTienTrongTuan(int tuan) {
-        return 0;
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            StringBuilder stringBuilder = new StringBuilder("FROM Bill b WHERE  WEEK(b.enddate) =: tuan AND b.billstatus.billstatusid = 'DTT' AND b.isdelete =:isdelete");
+            List<Bill> bills = entityManager.createQuery(stringBuilder.toString(), Bill.class).setParameter("tuan", tuan)
+                    .setParameter("isdelete", this.IS_NOT_DELETE).getResultList();
+
+            int total = 0;
+            for (Bill bill : bills) {
+                total += getTotalPriceOfBill(bill.getBillid());
+            }
+            return total;
+        } catch (Exception e) {
+
+            return 0;
+        }
     }
 
     @Override
     public int thongkeSoHoaDonTrongTuan(int tuan) {
-        return 0;
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            StringBuilder stringBuilder = new StringBuilder("FROM Bill b WHERE  WEEK(b.enddate) =:tuan AND b.billstatus.billstatusid = 'DTT' AND b.isdelete =:isdelete");
+            List<Bill> bills = entityManager.createQuery(stringBuilder.toString(), Bill.class)
+                    .setParameter("tuan", tuan)
+                    .setParameter("isdelete", this.IS_NOT_DELETE).getResultList();
+            return bills.size();
+        } catch (Exception e) {
+
+            return 0;
+        }
     }
 
     @Override
     public int thongkeTongTienTrongThang(int thang) {
-        return 0;
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            StringBuilder stringBuilder = new StringBuilder("FROM Bill b WHERE  MONTH(b.enddate) =: thang AND b.billstatus.billstatusid = 'DTT' AND b.isdelete =:isdelete");
+            List<Bill> bills = entityManager.createQuery(stringBuilder.toString(), Bill.class).setParameter("thang", thang).setParameter("isdelete", this.IS_NOT_DELETE).getResultList();
+
+            int total = 0;
+            for (Bill bill : bills) {
+                total += getTotalPriceOfBill(bill.getBillid());
+            }
+            return total;
+        } catch (Exception e) {
+
+            return 0;
+        }
     }
 
     @Override
     public int thongkeSoHoaDonTrongThang(int thang) {
-        return 0;
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            StringBuilder stringBuilder = new StringBuilder("FROM Bill b WHERE  MONTH(b.enddate) =: thang AND b.billstatus.billstatusid = 'DTT' AND b.isdelete =:isdelete");
+            List<Bill> bills = entityManager.createQuery(stringBuilder.toString(), Bill.class).setParameter("thang", thang).setParameter("isdelete", this.IS_NOT_DELETE).getResultList();
+            return bills.size();
+        } catch (Exception e) {
+
+            return 0;
+        }
     }
 }

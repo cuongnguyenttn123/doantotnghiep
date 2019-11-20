@@ -13,7 +13,7 @@ public interface TablestatusRepository extends JpaRepository<Tablestatus, Intege
     List<Tablestatus> findAllByIsdelete(Boolean aBoolean);
 
     @Query(
-            value = "select * from tablestatus t where t.isdelete = ? limit ?2, ?3",
+            value = "select * from tablestatus t where t.isdelete = ?1 limit ?2, ?3",
             nativeQuery = true
     )
     List<Tablestatus> findAllLimit(Boolean aBoolean, int start, int index);

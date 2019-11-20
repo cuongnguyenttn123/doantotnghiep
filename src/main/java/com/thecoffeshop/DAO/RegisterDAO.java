@@ -34,20 +34,25 @@ public class RegisterDAO implements RegisterDAOImp {
 
 	@Override
 	public Register getInfoById(int registerid) {
-		return null;
+		return registerRepository.findById(registerid).get();
 	}
 
 	@Override
 	public List<Register> getListRegisterOnWeek(Date from, Date to) {
-		return null;
+		return registerRepository.getListRegisterOnWeek(from, to, this.IS_NOT_DELETE);
 	}
 
 	@Override
 	public Boolean checkExistSchedule(String scheduleid) {
 		Boolean aBoolean;
+		List<Register> registerList;
 		try{
-
-			aBoolean = true;
+			registerList = registerRepository.checkExistSchedule(scheduleid, this.IS_NOT_DELETE);
+			if (registerList.size()>0){
+				aBoolean = true;
+			}else {
+				aBoolean = false;
+			}
 		}catch (Exception e){
 			e.printStackTrace();
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -86,6 +91,15 @@ public class RegisterDAO implements RegisterDAOImp {
 
 	@Override
 	public List<Register> listByDateScheduleid(Date date, String scheduleid) {
-		return null;
+		List<Register> registerList;
+		try{
+			registerList = registerRepository.listByDateScheduleid(date, scheduleid, this.IS_NOT_DELETE);
+		}catch (Exception e){
+			registerList = null;
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+
+		}
+		return registerList;
 	}
 }

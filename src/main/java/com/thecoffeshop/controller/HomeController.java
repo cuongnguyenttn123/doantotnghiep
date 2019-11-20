@@ -32,10 +32,14 @@ public class HomeController {
     @Autowired
     ImageService imageService;
 
+    @Autowired
+    ProductService productService;
+
 
     @GetMapping()
     public String getHome(){
-        List<Image> images = imageService.getListImageOfProduct("12");
+        List<Product> products = productService.getListProductLimit(1,"1", "","");
+
         return "home";
     }
 }

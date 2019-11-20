@@ -13,7 +13,7 @@ public interface VoucherRepository extends JpaRepository<Voucher, Integer>, JpaS
     List<Voucher> findAllByIsdelete(Boolean aBoolean);
 
     @Query(
-            value = "select * from voucher v where v.isdelete = ? limit ?2, ?3",
+            value = "select * from voucher v where v.isdelete = ?1 limit ?2, ?3",
             nativeQuery = true
     )
     List<Voucher> findAllLimit(Boolean aBoolean, int start, int index);

@@ -13,7 +13,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String>, Jpa
     List<Schedule> findAllByIsdelete(Boolean aBoolean);
 
     @Query(
-            value = "select * from schedule s where s.isdelete = ? limit ?2, ?3",
+            value = "select * from schedule s where s.isdelete = ?1 limit ?2, ?3",
             nativeQuery = true
     )
     List<Schedule> findAllLimit(Boolean aBoolean, int start, int index);

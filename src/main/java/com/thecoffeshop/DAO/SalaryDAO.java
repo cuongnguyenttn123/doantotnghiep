@@ -30,13 +30,13 @@ public class SalaryDAO implements SalaryDAOImp {
 	}
 
 	@Override
-	public Salary getInfoById(int dinnertableid) {
-		return null;
+	public Salary getInfoById(int salaryid) {
+		return salaryRepository.findBySalaryidAndIsdelete(salaryid, this.IS_NOT_DELETE);
 	}
 
 	@Override
 	public int getSalaryByEmployeeid(String employeeid) {
-		return 0;
+		return salaryRepository.findBySalaryid(employeeid).getSalaryonhour();
 	}
 
 	@Override

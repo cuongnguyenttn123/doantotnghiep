@@ -13,7 +13,7 @@ public interface PositionRepository extends JpaRepository<Position, String>, Jpa
     List<Position> findAllByIsdelete(Boolean aBoolean);
 
     @Query(
-            value = "select * from material m where m.isdelete = ? limit ?2, ?3",
+            value = "select * from material m where m.isdelete = ?1 limit ?2, ?3",
             nativeQuery = true
     )
     List<Position> findAllLimit(Boolean aBoolean, int start, int index);

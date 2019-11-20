@@ -13,7 +13,7 @@ public interface MaterialRepository extends JpaRepository<Material, Integer>, Jp
     List<Material> findAllByIsdelete(Boolean aBoolean);
 
     @Query(
-            value = "select * from material m where m.isdelete = ? limit ?2, ?3",
+            value = "select * from material m where m.isdelete = ?1 limit ?2, ?3",
             nativeQuery = true
     )
     List<Material> findAllLimit(Boolean aBoolean, int start, int index);
