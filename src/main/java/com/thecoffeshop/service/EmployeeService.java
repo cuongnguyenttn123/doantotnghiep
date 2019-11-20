@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -19,6 +21,11 @@ public class EmployeeService implements EmployeeDAOImp {
     @Override
     public List<Employee> findAll() {
         return employeeDAO.findAll();
+    }
+
+    @Override
+    public List<Employee> findAllLimit(int start) {
+        return employeeDAO.findAllLimit(start);
     }
 
     @Override

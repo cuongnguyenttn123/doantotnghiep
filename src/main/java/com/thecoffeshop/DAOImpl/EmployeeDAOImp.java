@@ -2,6 +2,7 @@ package com.thecoffeshop.DAOImpl;
 
 import com.thecoffeshop.entity.Employee;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -9,7 +10,9 @@ public interface EmployeeDAOImp extends CommonDAOImp{
 
 	public List<Employee> findAll();
 
-	public List<Employee> findLimit(int startPosition);
+	public List<Employee> findAllLimit(int start);
+
+	public List<Employee> findLimit(int start);
 	
 	public Boolean addEmployee(Employee employee);
 
