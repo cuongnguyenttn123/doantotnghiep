@@ -11,7 +11,11 @@ import java.util.List;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, String>, JpaSpecificationExecutor<Employee> {
-    Employee findByUsenameAndPassword(String userName, String passWord);
+    @Query(
+            value = "SELECT * FROM employee e where e.usename = ?1 and e.password = ?2",
+            nativeQuery = true
+    )
+    Employee logIn(String userName, String passWord);
     Employee findByUsename(String useName);
     List<Employee> findAllByIsdelete(Boolean aBoolean);
 
