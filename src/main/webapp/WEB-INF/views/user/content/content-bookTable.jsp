@@ -82,7 +82,7 @@
 					<div class="form-group">
 						<label for="tablestatusid" class="col-sm-12 col-form-label">Ngày
 							giờ đến</label> <input id="startdatetime" name="startdatetime"
-							type="date" class="form-control form-control-sm">
+							type="datetime-local" class="form-control form-control-sm">
 					</div>
 					<div class="form-group">
 						<label for="notice" class="col-sm-12 col-form-label">Ghi

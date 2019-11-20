@@ -15,11 +15,8 @@
 		</ol>
 		<div class="carousel-inner">
 			<c:forEach items="${images}" var="image">
-				<div class="carousel-item 
-				<c:if test='${i==0}'><c:out value="active" /></c:if> 	" 	>
-					<img class="d-block w-100 col-lg-12"
-						src="../resouces/images/my-images/<c:out value="${image.getName()}" />">
-				</div>
+				<img class="d-block w-100 col-lg-12"
+					 src="../resouces/images/my-images/<c:out value="${image.getName()}" />">
 			</c:forEach>
 		</div>
 		<a class="carousel-control-prev" href="#product_details" role="button"

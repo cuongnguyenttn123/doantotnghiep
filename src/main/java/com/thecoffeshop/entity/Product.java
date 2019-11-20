@@ -154,4 +154,5 @@ public class Product implements java.io.Serializable {
 		this.prices = prices;
 	}
 
+
 }
