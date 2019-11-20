@@ -148,11 +148,11 @@ public class BillDAO implements BillDAOImp {
     }
 
     @Override
+    @Transactional
     public int getTotalPriceOfBill(int billid) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             StringBuilder stringBuilder = new StringBuilder("FROM Billdetail b WHERE b.id.billid =:billid AND b.isdelete =:isdelete");
-            Date startdatetime = getInfoById(billid).getStartdatetime();
             List<Billdetail> billdetails = entityManager
                     .createQuery(stringBuilder.toString(), Billdetail.class)
                     .setParameter("billid", billid).setParameter("isdelete", this.IS_NOT_DELETE).getResultList();
@@ -168,7 +168,7 @@ public class BillDAO implements BillDAOImp {
             return totalPrice;
 
         } catch (Exception e) {
-
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return 0;
         }
     }
