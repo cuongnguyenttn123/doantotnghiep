@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
+@Transactional(rollbackFor = Exception.class)
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class BilldetailDAO implements BilldetailDAOImp {
     @Autowired
@@ -90,6 +91,7 @@ public class BilldetailDAO implements BilldetailDAOImp {
     }
 
     @Override
+    @Transactional
     public int getPriceOfBillDetail(BilldetailId billdetailId) {
         int billId = billdetailId.getBillid();
         int price;

@@ -15,11 +15,11 @@
 	<c:forEach items="${dtos}" var="dto">
 		<tr>
 			<td><label
-				data-billId='<c:out value="${dto.getBilldetail().getId().getBillid()}" />'
+				data-billId='<c:out value="${dto.getBillid()}" />'
 				data-productId='<c:out value="${dto.getProductid()}" />'
 				class="badge badge-info edit-billDetail"><i
 					class="fa fa-wrench"></i></label> <label
-				data-billId='<c:out value="${dto.getBilldetail().getId().getBillid()}" />'
+				data-billId='<c:out value="${dto.getBillid()}" />'
 				data-productId='<c:out value="${dto.getProductid()}" />'
 				class="badge badge-danger remove-billDetail"><i
 					class="fa fa-times"></i></label></td>
