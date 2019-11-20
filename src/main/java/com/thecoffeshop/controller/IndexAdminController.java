@@ -89,9 +89,9 @@ public class IndexAdminController extends Common {
 			modelMap.addAttribute("results", "Bàn này không tồn tại!");
 			return "/admin/public/Danger";
 		}
-
-		int totalPage = productService.findAll().size() / super.MAX_RESULTS;
-		if ((productService.findAll().size() % super.MAX_RESULTS) > 0) {
+		List<Product> products1 = productService.findAll();
+		int totalPage = products1.size() / super.MAX_RESULTS;
+		if ((products1.size() % super.MAX_RESULTS) > 0) {
 			totalPage++;
 		}
 		modelMap.addAttribute("totalPage", totalPage);
