@@ -161,10 +161,8 @@ public class BillDAO implements BillDAOImp {
             for (Billdetail billdetail : billdetails) {
                 String productId = billdetail.getProduct().getProductid();
                 int price = billdetailService.getPriceOfBillDetail(new BilldetailId(productId, billid));
-
                 totalPrice += price;
             }
-
             return totalPrice;
 
         } catch (Exception e) {
@@ -184,7 +182,7 @@ public class BillDAO implements BillDAOImp {
                     .setParameter("isdelete", this.IS_NOT_DELETE).setFirstResult(0).setMaxResults(1).getSingleResult();
             return bill;
         } catch (Exception e) {
-
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return null;
         }
     }
@@ -203,7 +201,7 @@ public class BillDAO implements BillDAOImp {
             }
             return total;
         } catch (Exception e) {
-
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return 0;
         }
     }
@@ -218,7 +216,7 @@ public class BillDAO implements BillDAOImp {
                     .setParameter("isdelete", this.IS_NOT_DELETE).getResultList();
             return bills.size();
         } catch (Exception e) {
-
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return 0;
         }
     }
