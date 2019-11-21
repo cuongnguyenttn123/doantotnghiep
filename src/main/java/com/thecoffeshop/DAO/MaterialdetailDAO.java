@@ -1,6 +1,7 @@
 package com.thecoffeshop.DAO;
 
 import com.thecoffeshop.DAOImpl.MaterialdetailDAOImp;
+import com.thecoffeshop.entity.Bill;
 import com.thecoffeshop.entity.Materialdetail;
 import com.thecoffeshop.repository.MaterialdetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,11 +127,39 @@ public class MaterialdetailDAO implements MaterialdetailDAOImp {
 
 	@Override
 	public List<Materialdetail> layNguyenLieuTonKho(int materialid) {
-		return null;
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		try {
+
+			List<Materialdetail> materialdetails = entityManager.createQuery(
+					"FROM Materialdetail m WHERE m.quantity > 0 AND m.material.materialid =:materialid AND m.isdelete =:isdelete ORDER BY m.materialdetailid ASC",
+					Materialdetail.class).setParameter("materialid", materialid)
+					.setParameter("isdelete", this.IS_NOT_DELETE).getResultList();
+			return materialdetails;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
 	public int laySoNguyenLieuTonKho(int materialid) {
-		return 0;
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		try {
+
+			List<Materialdetail> materialdetails = entityManager.createQuery(
+					"FROM Materialdetail m WHERE m.quantity > 0 AND m.material.materialid =:materialid AND m.isdelete =:isdelete ORDER BY m.materialdetailid ASC",
+					Materialdetail.class).setParameter("materialid", materialid)
+					.setParameter("isdelete", this.IS_NOT_DELETE).getResultList();
+			if (materialdetails.size() <= 0) {
+				return 0;
+			}
+			int total = 0;
+			for (Materialdetail materialdetail : materialdetails) {
+				total += materialdetail.getQuantity();
+			}
+			return total;
+		} catch (Exception e) {
+
+			return 0;
+		}
 	}
 }

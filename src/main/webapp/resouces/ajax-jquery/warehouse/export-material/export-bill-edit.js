@@ -26,7 +26,11 @@ $(function() {
 				// quantity : $("#quantity").val(),
 				// materialdetailid: $("#materialdetailid").val(),
 				// exportbillid: $("#exportbillid").val()
-
+				event.preventDefault();
+				// materialid : $("#materialid").val(),
+				// quantity : $("#quantity").val()
+				var formData = $("#export_material_form").serializeArray();
+				console.log(formData);
 				var countTr = $("#export_material_form table tbody tr").length;
 				// alert($("#import_material_form table tbody tr:eq(2)
 				var list = [];

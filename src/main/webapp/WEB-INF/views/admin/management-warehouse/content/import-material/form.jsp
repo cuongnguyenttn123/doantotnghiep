@@ -3,9 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="form-group ">
-	<label for="position" class="  col-form-label">Nhà cung cấp</label> <input
-		id="importbillid" name="importbillid" type="hidden"
-		value='<c:out value="${importbill.getImportbillid()}" />' /> <select
+	<label for="importbillid" class="  col-form-label">Nhà cung cấp</label>
+	<input id="importbillid" name="importbillid" type="hidden"
+		value='<c:out value="${importbill.getImportbillid()}" />' />
+	<select
 		<c:if test="${importbilldetails != null}">
                                 disabled="disabled"
                         </c:if>
