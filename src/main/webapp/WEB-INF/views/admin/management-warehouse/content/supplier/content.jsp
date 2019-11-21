@@ -30,11 +30,9 @@
 					<thead>
 						<tr>
 							<th></th>
-							<th>ID</th>
 							<th>Tên</th>
 							<th>Điện thoại</th>
 							<th>Địa chỉ</th>
-							<th>Cập nhập lần cuối</th>
 						</tr>
 					</thead>
 					<tbody>
