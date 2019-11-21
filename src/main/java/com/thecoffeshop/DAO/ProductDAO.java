@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.persistence.EntityManager;
@@ -18,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
+@Transactional
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ProductDAO implements ProductDAOImp {
 	@Autowired
@@ -50,7 +52,15 @@ public class ProductDAO implements ProductDAOImp {
 
 	@Override
 	public List<Product> findLimit(int start) {
-		return productRepository.findAllByLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
+		List<Product> productList;
+		try{
+			productList = productRepository.findAllByLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
+		}catch (Exception e){
+			e.printStackTrace();
+			productList = null;
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return productList;
 	}
 
 	@Override
@@ -115,6 +125,7 @@ public class ProductDAO implements ProductDAOImp {
 	}
 
 	@Override
+	@Transactional(noRollbackFor = Exception.class)
 	public Boolean checkExistNameProduct(String name) {
 		Boolean aBoolean;
 		Product product;
