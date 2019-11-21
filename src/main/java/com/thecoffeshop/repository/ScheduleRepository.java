@@ -17,4 +17,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String>, Jpa
             nativeQuery = true
     )
     List<Schedule> findAllLimit(Boolean aBoolean, int start, int index);
+
+    Schedule findByIsdeleteAndScheduleid(Boolean aBoolean, String scheduleId);
 }

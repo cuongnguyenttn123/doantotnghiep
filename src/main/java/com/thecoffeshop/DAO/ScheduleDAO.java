@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
@@ -42,8 +43,17 @@ public class ScheduleDAO implements ScheduleDAOImp {
 	}
 
 	@Override
+	@Transactional
 	public Schedule getInfoById(String scheduleid) {
-		return scheduleRepository.findById(scheduleid).get();
+		Schedule schedule;
+		try {
+			schedule = scheduleRepository.findByIsdeleteAndScheduleid(this.IS_NOT_DELETE,scheduleid);
+		}catch (Exception e){
+			e.printStackTrace();
+			schedule = null;
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return schedule;
 	}
 
 	@Override
