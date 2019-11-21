@@ -13,7 +13,7 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
     Product findByIsdeleteAndProductid(Boolean aBoolean, String productid);
     List<Product> findAllByIsdelete(Boolean aBoolean);
 
-    @Query(value = "select * from categoryproduct c where c.isdelete = ?1 limit ?2,?3",
+    @Query(value = "select * from product c where c.isdelete = ?1 limit ?2,?3",
             nativeQuery = true)
     List<Product> findAllByLimit(Boolean aBoolean, int start, int index);
 
@@ -23,7 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
     List<Product> checkExistCategoryProduct(String cgPrId, Boolean aBoolean);
 
 
-    @Query(value = "select * from categoryproduct c where c.name = ?1 and c.isdelete = ?2",
+    @Query(value = "select * from product c where c.name = ?1 and c.isdelete = ?2",
             nativeQuery = true)
     Product checkExistNameProduct(String name, Boolean aBoolean);
 }
