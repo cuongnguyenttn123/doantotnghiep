@@ -71,7 +71,6 @@ public class SupplierController extends Common {
 			return "/admin/public/Danger";
 		}
 		/* check[END] */
-
 		if (supplierService.checkExistByName(name.trim())) {
 
 			modelMap.addAttribute("results", "Tên nhà cung cấp đã tồn tại!");
