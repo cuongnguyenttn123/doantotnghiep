@@ -34,7 +34,14 @@ public class PositionDAO implements PositionDAOImp {
 
 	@Override
 	public List<Position> findAll() {
-		return positionRepository.findAllByIsdelete(this.IS_NOT_DELETE);
+		List<Position> positionList;
+		try {
+			positionList = positionRepository.findAllByIsdelete(this.IS_NOT_DELETE);
+		}catch (Exception e){
+			e.printStackTrace();
+			positionList = null;
+		}
+		return positionList;
 	}
 
 	@Override

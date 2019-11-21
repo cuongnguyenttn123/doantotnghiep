@@ -30,7 +30,7 @@ public class EmployeeService implements EmployeeDAOImp {
 
     @Override
     public List<Employee> findLimit(int startPosition) {
-        return employeeDAO.findLimit(startPosition);
+        return employeeDAO.findAllLimit(startPosition);
     }
 
     @Override

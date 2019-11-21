@@ -82,10 +82,8 @@
 <div class="form-group row">
 	<label for="startdate" class="  col-form-label">Ngày bắt đầu
 		làm(*)</label> <input id="startdate" type="date"
-		value='<c:out value="${ employee.getSalary().getStartdate()}" />'
+		value='<c:out value="${}" />'
 		class="form-control" placeholder="Ngày bắt đầu làm" />
-
-
 </div>
 <c:if test="${employee.getEmployeeid()==null}">
 	<button id="btnSave" type="button" class="btn btn-success mr-2">

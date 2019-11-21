@@ -30,6 +30,7 @@ public class AtpositionDAO implements AtpositionDAOImp {
         }catch (Exception e){
             e.printStackTrace();
             aBoolean = false;
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
         return aBoolean;
     }
