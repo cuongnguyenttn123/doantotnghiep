@@ -77,7 +77,6 @@ public class SupplierController extends Common {
 			modelMap.addAttribute("results", "Tên nhà cung cấp đã tồn tại!");
 			return "/admin/public/Danger";
 		}
-
 		Supplier supplier = new Supplier();
 		supplier.setName(name);
 		supplier.setPhone(phone);
