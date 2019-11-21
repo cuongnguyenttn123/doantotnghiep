@@ -148,11 +148,9 @@ public class CategoryProductController extends Common {
 	public List<String> checkForm(String categoryproductid, String name) {
 		List<String> results = new ArrayList<String>();
 		if (categoryproductid.length() == 0 || categoryproductid.length() > 8) {
-
 			results.add("Mã phải không được để trống và tối đa 7 kí tự!");
 		}
 		if (name.length() == 0) {
-
 			results.add("Tên không được để trống!");
 		}
 		return results;
