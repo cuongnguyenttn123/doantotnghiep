@@ -12,6 +12,8 @@ import java.util.List;
 public interface TablestatusRepository extends JpaRepository<Tablestatus, Integer>, JpaSpecificationExecutor<Tablestatus> {
     List<Tablestatus> findAllByIsdelete(Boolean aBoolean);
 
+    Tablestatus findByName(String name);
+
     @Query(
             value = "select * from tablestatus t where t.isdelete = ?1 limit ?2, ?3",
             nativeQuery = true

@@ -49,9 +49,15 @@ public class TablestatusDAO implements TablestatusDAOImp {
 	@Override
 	public Boolean checkExist(String name) {
 		Boolean aBoolean;
+		Tablestatus tablestatus;
 		try{
+			tablestatus = tablestatusRepository.findByName(name);
+			if (tablestatus != null){
+				aBoolean = true;
+			}else {
+				aBoolean = false;
+			}
 
-			aBoolean = true;
 		}catch (Exception e){
 			e.printStackTrace();
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
