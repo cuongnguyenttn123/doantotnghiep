@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface RegisterRepository extends JpaRepository<Register, Integer>, JpaSpecificationExecutor<Register> {
     @Query(
-            value = "select * from register r WHERE r.date >= ?1 AND r.date <= ?2 AND r.isdelete = ?3;",
+            value = "select * from register r WHERE r.date >= ?1 AND r.date <= ?2 AND r.isdelete = ?3",
             nativeQuery = true
     )
     List<Register> getListRegisterOnWeek(Date from, Date to, Boolean aBoolean);
