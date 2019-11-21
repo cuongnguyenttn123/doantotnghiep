@@ -31,14 +31,12 @@
 					<thead>
 						<tr>
 							<th></th>
-							<th>ID</th>
 							<th>Tên</th>
 							<th>Ngày bắt đầu</th>
 							<th>Ngày kết thúc</th>
 							<th>Số lượng phát</th>
 							<th>Còn lại</th>
 							<th>Giảm giá</th>
-							<th>Cập nhập lần cuối</th>
 						</tr>
 					</thead>
 					<tbody>

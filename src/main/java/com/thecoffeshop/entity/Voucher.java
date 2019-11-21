@@ -28,6 +28,8 @@ public class Voucher implements java.io.Serializable {
 	private Date enddate;
 	private Integer number;
 	private Integer count;
+	private Integer saleoff;
+
 	private float discount;
 	private Date updateat;
 	private Boolean isdelete;
@@ -41,7 +43,7 @@ public class Voucher implements java.io.Serializable {
 	}
 
 	public Voucher(int voucherid, String name, Date startdatetime, Date enddate, Integer number, Integer count,
-			float discount, Date updateat, Boolean isdelete, Set<Bill> bills) {
+				   float discount, Date updateat, Boolean isdelete, Set<Bill> bills) {
 		this.voucherid = voucherid;
 		this.name = name;
 		this.startdatetime = startdatetime;
@@ -107,9 +109,17 @@ public class Voucher implements java.io.Serializable {
 	public Integer getCount() {
 		return this.count;
 	}
-
+	@Column(name = "SALEOFF")
 	public void setCount(Integer count) {
 		this.count = count;
+	}
+
+	public Integer getSaleoff() {
+		return saleoff;
+	}
+
+	public void setSaleoff(Integer saleoff) {
+		this.saleoff = saleoff;
 	}
 
 	@Column(name = "DISCOUNT")
@@ -148,5 +158,6 @@ public class Voucher implements java.io.Serializable {
 	public void setBills(Set<Bill> bills) {
 		this.bills = bills;
 	}
+
 
 }
