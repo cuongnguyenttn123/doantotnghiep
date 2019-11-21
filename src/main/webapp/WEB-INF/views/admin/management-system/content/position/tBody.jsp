@@ -9,7 +9,7 @@
 			class="badge badge-info edit"><i class="fa fa-wrench x"></i></label>
 			<c:if test="${!dto.getCanDelete()}">
 				<label
-					data-billstatusid='<c:out value="${dto.getPosition().getPositionid()}" />'
+					data-positionid='<c:out value="${dto.getPosition().getPositionid()}" />'
 					class="badge badge-danger remove"><i class="fa fa-times"></i></label>
 			</c:if></td>
 		<td><c:out value="${dto.getPosition().getPositionid()}" /></td>

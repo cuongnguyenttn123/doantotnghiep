@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
@@ -50,8 +51,17 @@ public class PositionDAO implements PositionDAOImp {
 	}
 
 	@Override
+	@Transactional
 	public Position getInfoById(String positionid) {
-		return positionRepository.findById(positionid).get();
+		Position position;
+		try {
+			position = positionRepository.findById(positionid).get();
+		}catch (Exception e){
+			e.printStackTrace();
+			position = null;
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return position;
 	}
 
 	@Override
