@@ -36,7 +36,17 @@ public class SalaryDAO implements SalaryDAOImp {
 
 	@Override
 	public int getSalaryByEmployeeid(String employeeid) {
-		return salaryRepository.findBySalaryid(employeeid).getSalaryonhour();
+		Salary salary;
+		int slr;
+		try {
+			salary = salaryRepository.getSalaryByEmployeeId(employeeid);
+			slr = salary.getSalaryonhour();
+		}catch (Exception e){
+			slr = 0;
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return slr;
 	}
 
 	@Override
