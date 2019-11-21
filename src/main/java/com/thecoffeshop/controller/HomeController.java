@@ -35,11 +35,14 @@ public class HomeController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    CategoryProductService categoryProductService;
+
 
     @GetMapping()
     public String getHome(){
         List<Product> products = productService.getListProductLimit(1,"1", "","");
-
+        Categoryproduct categoryproduct = categoryProductService.getInfoById("2");
         return "home";
     }
 }

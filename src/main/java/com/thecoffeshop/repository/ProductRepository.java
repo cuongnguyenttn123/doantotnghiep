@@ -16,9 +16,12 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
     @Query(value = "select * from categoryproduct c where c.isdelete = ?1 limit ?2,?3",
             nativeQuery = true)
     List<Product> findAllByLimit(Boolean aBoolean, int start, int index);
-    @Query(value = "select * from categoryproduct c where c.categoryproductid = ?1 and c.isdelete = ?2",
+
+
+    @Query(value = "select * from product c where c.categoryproductid = ?1 and c.isdelete = ?2",
             nativeQuery = true)
     List<Product> checkExistCategoryProduct(String cgPrId, Boolean aBoolean);
+
 
     @Query(value = "select * from categoryproduct c where c.name = ?1 and c.isdelete = ?2",
             nativeQuery = true)
