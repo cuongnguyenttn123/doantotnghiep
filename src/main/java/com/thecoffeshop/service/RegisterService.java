@@ -57,7 +57,7 @@ public class RegisterService implements RegisterDAOImp {
 	}
 
 	@Override
-	public List<Register> listByDateScheduleid(Date date, String scheduleid) {
+	public List<Register> listByDateScheduleid(java.sql.Date date, String scheduleid) {
 		// TODO Auto-generated method stub
 		return registerDAO.listByDateScheduleid(date, scheduleid);
 	}

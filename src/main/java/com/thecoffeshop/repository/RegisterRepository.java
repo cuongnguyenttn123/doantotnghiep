@@ -24,7 +24,7 @@ public interface RegisterRepository extends JpaRepository<Register, Integer>, Jp
     List<Register> checkExistSchedule(String scheduleid, Boolean aBoolean);
 
     @Query(
-            value = "select * from register r WHERE r.date = ?1 AND r.scheduleid = ?2 AND r.isdelete = ?3;",
+            value = "select * from register r WHERE r.date = ?1 AND r.scheduleid = ?2 AND r.isdelete = ?3",
             nativeQuery = true
     )
     List<Register> listByDateScheduleid(Date date, String scheduleid, Boolean aBoolean);
