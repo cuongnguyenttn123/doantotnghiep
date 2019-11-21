@@ -19,7 +19,7 @@ public interface ExportbillRepository extends JpaRepository<Exportbill, Integer>
     List<Exportbill> findAllByLimit(Boolean aBoolean, int start, int index);
 
     @Query(
-            value = "select * from exportbill e where e.productid = ?1 and e.quantity > ?2 and e.isdelete = ?3",
+            value = "select * from exportbill e where e.productid = ?1 and e.quantity >= ?2 and e.isdelete = ?3",
             nativeQuery = true
     )
     List<Exportbill> totalQuantityProduct(String productid, int index, Boolean aBoolean);
