@@ -12,15 +12,13 @@
 					data-voucherid='<c:out value="${dto.getVoucher().getVoucherid()}" />'
 					class="badge badge-danger remove"><i class="fa fa-times"></i></label>
 			</c:if></td>
-		<td><c:out value="${dto.getVoucher().getVoucherid()}" /></td>
 		<td><c:out value="${dto.getVoucher().getName()}" /></td>
 		<td><c:out value="${dto.getVoucher().getStartdatetime()}" /></td>
 		<td><c:out value="${dto.getVoucher().getEnddate()}" /></td>
 		<td><c:out value="${dto.getVoucher().getNumber()}" /></td>
 		<td><c:out value="${dto.getVoucher().getCount()}" /></td>
-		<td><c:out value="${dto.getVoucher().getSaleof()}" /></td>
-		<td class="text-danger"><c:out
-				value="${dto.getVoucher().getUpdateat()}" /></td>
+		<td><c:out value="${dto.getVoucher().getSaleoff()}" /></td>
+
 	</tr>
 </c:forEach>
 <script src="../resouces/ajax-jquery/voucher/voucher-add.js"></script>
