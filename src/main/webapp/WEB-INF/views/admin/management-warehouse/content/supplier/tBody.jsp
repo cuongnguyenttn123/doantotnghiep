@@ -14,12 +14,9 @@
 			</c:if>
 			
 		</td>
-		<td><c:out value="${dto.getSupplier().getSupplierid()}" /></td>
 		<td><c:out value="${dto.getSupplier().getName()}" /></td>
-		<td><c:out value="${dto.getSupplier().getAddress()}" /></td>
 		<td><c:out value="${dto.getSupplier().getPhone()}" /></td>
-		<td class="text-danger"><c:out
-				value="${dto.getSupplier().getUpdateat()}" /></td>
+		<td><c:out value="${dto.getSupplier().getAddress()}" /></td>
 	</tr>
 </c:forEach>
 <script src="../resouces/ajax-jquery/warehouse/supplier/supplier-add.js"></script>
