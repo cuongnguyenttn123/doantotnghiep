@@ -107,9 +107,15 @@ public class MaterialdetailDAO implements MaterialdetailDAOImp {
 	@Override
 	public Boolean checkExistMaterial(int materialid) {
 		Boolean aBoolean;
+		List<Materialdetail> materialdetails;
 		try{
+			materialdetails = materialdetailRepository.checkExistMaterial(this.IS_NOT_DELETE, materialid);
+			if (materialdetails.size() > 0){
+				aBoolean = true;
+			}else {
+				aBoolean = false;
+			}
 
-			aBoolean = true;
 		}catch (Exception e){
 			e.printStackTrace();
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
