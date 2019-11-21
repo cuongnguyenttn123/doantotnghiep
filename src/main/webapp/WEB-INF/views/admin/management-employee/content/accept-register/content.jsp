@@ -30,8 +30,7 @@
 						<tbody>
 							<c:forEach items="${scheduleDTOs}" var="scheduleDTO">
 								<tr class="text-right">
-									<td class="text-center"><c:out
-											value="${scheduleDTO.getScheduleid()}" /></td>
+									<td class="text-center"><c:out value="${scheduleDTO.getScheduleid()}" /></td>
 									<c:forEach var="i" begin="1" end="7">
 										<td class="text-left">
 											<c:forEach items="${dtos}" var="dto">
@@ -52,8 +51,6 @@
 											</c:forEach>
 										</td>
 										<i class="input-helper"></i>
-										</label>
-										</div>
 										</td>
 									</c:forEach>
 								</tr>

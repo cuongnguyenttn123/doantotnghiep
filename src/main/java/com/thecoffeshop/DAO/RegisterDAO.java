@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +40,14 @@ public class RegisterDAO implements RegisterDAOImp {
 
 	@Override
 	public List<Register> getListRegisterOnWeek(Date from, Date to) {
-		return registerRepository.getListRegisterOnWeek(from, to, this.IS_NOT_DELETE);
+		List<Register> registerList;
+		try {
+			registerList = registerRepository.getListRegisterOnWeek(from, to, this.IS_NOT_DELETE);
+		}catch (Exception e){
+			e.printStackTrace();
+			registerList = new ArrayList<>();
+		}
+		return registerList;
 	}
 
 	@Override
@@ -90,7 +98,7 @@ public class RegisterDAO implements RegisterDAOImp {
 	}
 
 	@Override
-	public List<Register> listByDateScheduleid(Date date, String scheduleid) {
+	public List<Register> listByDateScheduleid(java.sql.Date date, String scheduleid) {
 		List<Register> registerList;
 		try{
 			registerList = registerRepository.listByDateScheduleid(date, scheduleid, this.IS_NOT_DELETE);

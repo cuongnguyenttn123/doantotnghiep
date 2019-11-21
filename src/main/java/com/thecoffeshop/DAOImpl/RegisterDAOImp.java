@@ -20,5 +20,5 @@ public interface RegisterDAOImp extends CommonDAOImp {
 	public Boolean editRegister(Register register);
 
 	// lấy list nhân viên đăng ký ca vào ngày nào, ca nào
-	public List<Register> listByDateScheduleid(Date date, String scheduleid);
+	public List<Register> listByDateScheduleid(java.sql.Date date, String scheduleid);
 }
