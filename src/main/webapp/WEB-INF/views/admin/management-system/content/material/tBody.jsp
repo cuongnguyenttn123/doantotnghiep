@@ -16,6 +16,8 @@
 		</td>
 		<td><c:out value="${dto.getMaterial().getMaterialid()}" /></td>
 		<td><c:out value="${dto.getMaterial().getName()}" /></td>
+		<td><c:out value="${dto.getMaterial().getUnit()}" /></td>
+
 		<td class="text-danger"><c:out
 				value="${dto.getMaterial().getUpdateat()}" /></td>
 	</tr>

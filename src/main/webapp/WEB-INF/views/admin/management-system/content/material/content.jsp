@@ -32,6 +32,7 @@
 							<th></th>
 							<th>ID</th>
 							<th>Tên</th>
+							<th>Unit</th>
 							<th>Cập nhập lần cuối</th>
 						</tr>
 					</thead>
