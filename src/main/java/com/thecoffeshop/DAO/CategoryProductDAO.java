@@ -39,7 +39,7 @@ public class CategoryProductDAO implements CategoryProductDAOImp {
 
 	@Override
 	public List<Categoryproduct> findLimit(int start) {
-		return categoryProductRepository.findAllByLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
+		return categoryProductRepository.findAllByLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
 	}
 
 	@Override

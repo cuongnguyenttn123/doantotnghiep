@@ -27,7 +27,7 @@ public class EmployeeDAO implements EmployeeDAOImp {
 
     @Override
     public List<Employee> findAllLimit(int start) {
-        return employeeRepository.findAllLimit(this.IS_NOT_DELETE,start,this.MAX_RESULTS);
+        return employeeRepository.findAllLimit(this.IS_NOT_DELETE,start*this.MAX_RESULTS,this.MAX_RESULTS);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class ImportBillDAO implements ImportBillDAOImp {
 
 	@Override
 	public List<Importbill> findLimit(int start) {
-		return importbillRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
+		return importbillRepository.findAllLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
 	}
 
 	@Override

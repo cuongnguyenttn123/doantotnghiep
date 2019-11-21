@@ -38,7 +38,7 @@ public class VoucherDAO implements VoucherDAOImp {
 
 	@Override
 	public List<Voucher> findLimit(int start) {
-		return voucherRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
+		return voucherRepository.findAllLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
 	}
 
 	@Override

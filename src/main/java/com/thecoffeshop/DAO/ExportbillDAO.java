@@ -38,8 +38,8 @@ public class ExportbillDAO implements ExportbillDAOImp {
 	}
 
 	@Override
-	public List<Exportbill> findLimit(int startPosition) {
-		return exportbillRepository.findAllByLimit(this.IS_NOT_DELETE, startPosition, this.MAX_RESULTS);
+	public List<Exportbill> findLimit(int start) {
+		return exportbillRepository.findAllByLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
 	}
 
 	@Override

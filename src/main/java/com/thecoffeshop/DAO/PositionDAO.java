@@ -39,7 +39,7 @@ public class PositionDAO implements PositionDAOImp {
 
 	@Override
 	public List<Position> findLimit(int start) {
-		return positionRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
+		return positionRepository.findAllLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
 	}
 
 	@Override

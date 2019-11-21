@@ -40,7 +40,7 @@ public class SupplierDAO implements SupplierDAOImp {
 
 	@Override
 	public List<Supplier> findLimit(int start) {
-		return supplierRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
+		return supplierRepository.findAllLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
 	}
 
 	@Override

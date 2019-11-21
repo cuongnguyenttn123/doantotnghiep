@@ -38,7 +38,7 @@ public class TablestatusDAO implements TablestatusDAOImp {
 
 	@Override
 	public List<Tablestatus> findLimit(int start) {
-		return tablestatusRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
+		return tablestatusRepository.findAllLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
 	}
 
 	@Override
