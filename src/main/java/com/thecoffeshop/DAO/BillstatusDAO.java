@@ -38,8 +38,8 @@ public class BillstatusDAO implements BillstatusDAOImp {
     }
 
     @Override
-    public List<Billstatus> findLimit(int startPosition) {
-        return billstatusRepository.findAllByLimit(this.IS_NOT_DELETE, startPosition, this.MAX_RESULTS);
+    public List<Billstatus> findLimit(int start) {
+        return billstatusRepository.findAllByLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
     }
 
     @Override

@@ -49,8 +49,8 @@ public class ProductDAO implements ProductDAOImp {
 	}
 
 	@Override
-	public List<Product> findLimit(int startPosition) {
-		return productRepository.findAllByLimit(this.IS_NOT_DELETE, startPosition, this.MAX_RESULTS);
+	public List<Product> findLimit(int start) {
+		return productRepository.findAllByLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
 	}
 
 	@Override

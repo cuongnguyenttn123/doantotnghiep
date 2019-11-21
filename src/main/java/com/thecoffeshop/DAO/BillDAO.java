@@ -52,8 +52,8 @@ public class BillDAO implements BillDAOImp {
     }
 
     @Override
-    public List<Bill> findLimit(int startPosition) {
-        return repository.findAllByLimit(this.IS_NOT_DELETE,startPosition, this.MAX_RESULTS);
+    public List<Bill> findLimit(int start) {
+        return repository.findAllByLimit(this.IS_NOT_DELETE,start*this.MAX_RESULTS, this.MAX_RESULTS);
     }
 
     @Override

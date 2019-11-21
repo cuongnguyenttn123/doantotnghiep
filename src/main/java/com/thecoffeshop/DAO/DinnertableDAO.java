@@ -51,7 +51,7 @@ public class DinnertableDAO implements DinnertableDAOImp {
 
 	@Override
 	public List<Dinnertable> findLimit(int start) {
-		return dinnertableRepository.findAllByLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
+		return dinnertableRepository.findAllByLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
 	}
 
 	@Override

@@ -78,7 +78,12 @@ public class BooktableDAO implements BooktableDAOImp {
         try {
 
             booktable = booktableRepository.checkExistDinnerTable(dinnertableid);
-            aBoolean = true;
+            if (booktable.size() != 0){
+                aBoolean = true;
+            }else {
+                aBoolean = false;
+            }
+
         }catch (Exception e){
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();

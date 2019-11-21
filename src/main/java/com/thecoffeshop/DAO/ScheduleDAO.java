@@ -38,7 +38,7 @@ public class ScheduleDAO implements ScheduleDAOImp {
 
 	@Override
 	public List<Schedule> findLimit(int start) {
-		return scheduleRepository.findAllLimit(this.IS_NOT_DELETE, start, this.MAX_RESULTS);
+		return scheduleRepository.findAllLimit(this.IS_NOT_DELETE, start*this.MAX_RESULTS, this.MAX_RESULTS);
 	}
 
 	@Override
