@@ -3,9 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="form-group ">
-	<label for="position" class="  col-form-label">Sảm phẩm</label> <input
+	<label for="exportbillid" class="  col-form-label">Sản phẩm</label>
+	<input
 		id="exportbillid" name="exportbillid" type="hidden"
-		value='<c:out value="${exportbill.getExportbillid()}" />' /> <select
+		value='<c:out value="${exportbill.getExportbillid()}" />' />
+	<select
 		<c:if test="${exportbilldetails != null}">
                                 disabled="disabled"
                         </c:if>
@@ -23,7 +25,7 @@
 	</select>
 </div>
 <div class="form-group ">
-	<label for="position" class="  col-form-label">Số lượng sản phẩm chế biến được</label> 
+	<label for="quantityProduct" class="  col-form-label">Số lượng sản phẩm chế biến được</label>
 	<input id="quantityProduct" type="number" class="form-control" value='<c:out value="${exportbill.getQuantity() }" />'>
 </div>
 <table class="table">
@@ -36,60 +38,30 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr class="-1" hidden>
-			<td><label class="badge badge-danger remove-import" data-remove-import="-1"><i
-					class="fa fa-times"></i></label></td>
-			<td><input id="materialdetailid" name="materialdetailid"
-				type="hidden" /><select
-				class="" id="materialid"
-				style="border: 2px solid #f2f2f2; width: 80px;">
+	<div id="containermaterial">
+		<div class="detail-material">
+			<tr class="-1 detail-material1" hidden>
+			<td>
+				<label class="badge badge-danger remove-import" data-remove-import="-1"><i class="fa fa-times"></i></label></td>
+			<td class="detail-material2">
+				<input id="materialdetailid" name="materialdetailid" type="hidden" />
+				<label for="materialid" class="  col-form-label"></label>
+				<select class="" id="materialid" name = "materialid" style="border: 2px solid #f2f2f2; width: 80px;">
 					<option value="-1"></option>
 					<c:forEach items="${materials}" var="material">
 						<option value='<c:out value = "${material.getMaterialid()}" />'>
 							<c:out value="${material.getName() }" />
 						</option>
 					</c:forEach>
-			</select></td>
-			<td><input id="quantity" name="quantity" type="number"
-				style="border: 2px solid #f2f2f2; width: 70px;" placeholder="0" /></td>
+				</select>
+			</td>
+			<td>
+				<input id="quantityproduc" name="quantity" type="number" style="border: 2px solid #f2f2f2; width: 70px;" placeholder="0" />
+			</td>
 		</tr>
-		<c:if test="${ exportbilldetails != null}">
-				<c:set var = "i" scope = "session" value = "${1}"></c:set>
-			<c:forEach items="${exportbilldetails}" var="exportbilldetail">
-				<tr class="0">
-					<td><label class="badge badge-danger remove-import" data-remove-import='<c:out value="${i }"></c:out>'><i
-							class="fa fa-times"></i></label></td>	
-					<td><c:out value="${exportbilldetail.getMaterialdetail().getMaterialdetailid()}" /></td>
-					<td><input id="materialdetailid" name="materialdetailid"
-						type="hidden"
-						value='<c:out value="${exportbilldetail.getMaterialdetail().getMaterialdetailid()}" />' />
-						<select class="" id="materialid" disabled="disabled"
-						style="border: 2px solid #f2f2f2; width: 80px;">
-							<option value="-1"></option>
-							<c:forEach items="${materials}" var="material">
-								<option
-									<c:if test="${exportbilldetail.getMaterialdetail().getMaterial().getMaterialid()==material.getMaterialid()}">
-                                selected
-                        </c:if>
-									value='<c:out value = "${material.getMaterialid()}" />'>
-									<c:out value="${material.getName() }" />
-								</option>
-							</c:forEach>
-					</select></td>
-					<td><input id="quantity" name="quantity" type="number"
-						style="border: 2px solid #f2f2f2; width: 70px;"
-						value='<c:out value="${exportbilldetail.getQuantity()}" />'
-						placeholder="0" /></td>
-					<%-- <td><input id="dateofmanufacture" type="date"
-						style="border: 2px solid #f2f2f2; width: 100px;"
-						value='<c:out value="${ exportbilldetail.getMaterialdetail().getDateofmanufacture()}" />' /></td>
-					<td><input id="expirationdate" type="date"
-						style="border: 2px solid #f2f2f2; width: 100px;"
-						value='<c:out value="${ exportbilldetail.getMaterialdetail().getExpirationdate()}" />' /></td> --%>
-				</tr>
-				<c:set var = "i" scope = "session" value = "${i + 1}"></c:set>
-			</c:forEach>
-		</c:if>
+		</div>
+	<div/>
+		<%@ include file="./foreach.jsp"%>
 	</tbody>
 </table>
 <div class="form-group" style="text-align: center;">
@@ -107,7 +79,6 @@
 		Cập nhật</button>
 </c:if>
 <button id="btnClear" class="btn btn-light">Làm mới</button>
-
 <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">

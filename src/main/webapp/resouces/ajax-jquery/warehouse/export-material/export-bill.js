@@ -1,86 +1,100 @@
-$(function() {
+$(document).ready(function () {
 
-	var link = "/admin/warehouse-export-material/table";
+	$(function() {
 
-	function _list(link, startPosition) {
-		$.get(link, {
-			startPosition : startPosition
-		}, function(data, status) {
-			$("#tbody").html(data);
-		});
-	};
-	
-	$("#materialid").change(function() {
-		alert();
-	});
-	
-	$("#btnSave").click(function() {
-		// materialid : $("#materialid").val(),
-		// quantity : $("#quantity").val()
+		var link = "/admin/warehouse-export-material/table";
 
-		var countTr = $("#import_material_form table tbody tr").length;
-		// alert($("#import_material_form table tbody tr:eq(2)
-		var list = [];
-		var k = 0;
-		for(var j=1; j< countTr; j++){
-			list[k] = {
-					materialid : $("#import_material_form table tbody tr:eq("+j+") #materialid").val(),
-					quantity :  $("#import_material_form table tbody tr:eq("+j+") #quantity").val()
-					
-				};
-			k++;
-		}
-		var listMaterialDetail = {
-			listMaterialDetail : list
+		function _list(link, startPosition) {
+			$.get(link, {
+				startPosition : startPosition
+			}, function(data, status) {
+				$("#tbody").html(data);
+			});
 		};
 
-		$.post("/admin/warehouse-export-material/insert", {
-			productid : $("#productid").val(),
-			quantityProduct : $("#quantityProduct").val(),
-			listMaterialDetail : JSON.stringify(listMaterialDetail)
-		}, function(data, status) {
-			$("#result-form").html(data);
-			$("#result-form").fadeToggle(3000);
-			// Pagination không tự load được nên phải tặng thêm 1 khi thêm thành
-			// công
-			if (data.indexOf("success") != -1) {
-				$("totalPage").val($("totalPage").val() + 1);
-			}
-			// _list(link, 1);// at loadTable.js
+		$("#materialid").change(function() {
+			alert();
 		});
-	});
 
-	$("#btnClear").click(function() {
-		document.getElementById("billStatus_form").reset();
-	});
-
-	_list(link, 1);// at loadTable.js
-	_loadPagination(1);// at loadTable.js
-	hide_all_Pagination();
-	_hide_show_Pagination(1, "right");// at loadTable.js
-
-	$(".pa").click(function() {
-		$(".active").removeClass("active");
-		$(this).addClass("active");
-		_list(link, $(this).attr("data-startPosition"));
-	});
-
-	$(".right").click(
-			function() {
-				$(".active").removeClass("active");
-				$(
-						"[data-startPosition='"
-								+ $(this).attr("data-startPosition") + "']")
-						.addClass("active");
-				_list(link, $(this).attr("data-startPosition"));
-				_hide_show_Pagination($(this).attr("data-startPosition"),
-						"right");// at
-				// loadTable.js
+		$("#btnSave").click(function(event) {
+			event.preventDefault();
+			// materialid : $("#materialid").val(),
+			// quantity : $("#quantity").val()
+			var formData = $("#export_material_form").serializeArray();
+			console.log(formData);
+			var materialid = [];
+			var quantity = [];
+			$.each(formData, function(i, field){
+				var a = field.name;
+				if(a==="materialid"){
+					materialid.push(field.value)
+				}
+				if((field.name)==="quantity"){
+					quantity.push(field.value)
+				}
 			});
-	$(".left").click(function() {
-		_list(link, $(this).attr("data-startPosition"));
-		_hide_show_Pagination($(this).attr("data-startPosition"), "left");// at
-		// loadTable.js
-	});
+			var list = [];
+			var k = 0;
+			for (var i= 1 ; i < materialid.length; i++){
+				list[k] = {
+					materialid : materialid[i],
+					quantity :  quantity[i]
+				};
+				k++;
+			}
 
-});
+			var listMaterialDetail = {
+				listMaterialDetail : list
+			};
+
+			$.post("/admin/warehouse-export-material/insert", {
+				productid : $("#productid").val(),
+				quantityProduct : $("#quantityProduct").val(),
+				listMaterialDetail : JSON.stringify(listMaterialDetail)
+			}, function(data, status) {
+				$("#result-form").html(data);
+				$("#result-form").fadeToggle(3000);
+				// Pagination không tự load được nên phải tặng thêm 1 khi thêm thành
+				// công
+				if (data.indexOf("success") != -1) {
+					$("totalPage").val($("totalPage").val() + 1);
+				}
+				// _list(link, 1);// at loadTable.js
+			});
+		});
+
+		$("#btnClear").click(function() {
+			document.getElementById("billStatus_form").reset();
+		});
+
+		_list(link, 1);// at loadTable.js
+		_loadPagination(1);// at loadTable.js
+		hide_all_Pagination();
+		_hide_show_Pagination(1, "right");// at loadTable.js
+
+		$(".pa").click(function() {
+			$(".active").removeClass("active");
+			$(this).addClass("active");
+			_list(link, $(this).attr("data-startPosition"));
+		});
+
+		$(".right").click(
+				function() {
+					$(".active").removeClass("active");
+					$(
+							"[data-startPosition='"
+									+ $(this).attr("data-startPosition") + "']")
+							.addClass("active");
+					_list(link, $(this).attr("data-startPosition"));
+					_hide_show_Pagination($(this).attr("data-startPosition"),
+							"right");// at
+					// loadTable.js
+				});
+		$(".left").click(function() {
+			_list(link, $(this).attr("data-startPosition"));
+			_hide_show_Pagination($(this).attr("data-startPosition"), "left");// at
+			// loadTable.js
+		});
+
+	});
+})
