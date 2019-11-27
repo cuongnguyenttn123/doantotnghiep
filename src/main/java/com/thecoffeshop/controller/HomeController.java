@@ -43,6 +43,7 @@ public class HomeController {
     public String getHome(){
         List<Product> products = productService.getListProductLimit(1,"1", "","");
         Categoryproduct categoryproduct = categoryProductService.getInfoById("2");
+        int a = billService.getTotalPriceOfBill(26);
         return "home";
     }
 }

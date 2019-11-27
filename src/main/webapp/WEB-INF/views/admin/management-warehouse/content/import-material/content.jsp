@@ -30,7 +30,6 @@
 					<thead>
 						<tr>
 							<th></th>
-							<th>ID</th>
 							<th>Nhà cung cấp</th>
 							<th>SL</th>
 							<th>Nhân viên</th>

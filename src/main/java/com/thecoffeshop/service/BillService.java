@@ -2,9 +2,12 @@ package com.thecoffeshop.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.thecoffeshop.DAOImpl.BillDAOImp;
+import com.thecoffeshop.DTO.BillDetailDTO;
 import com.thecoffeshop.entity.Bill;
+import com.thecoffeshop.entity.Billdetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -83,6 +86,11 @@ public class BillService implements BillDAOImp {
 	}
 
 	@Override
+	public int getTotalPriceOfBill2(Bill bill) {
+		return billDAO.getTotalPriceOfBill2(bill);
+	}
+
+	@Override
 	public Bill getInfoLastBill(int dinnertableid) {
 		// TODO Auto-generated method stub
 		return billDAO.getInfoLastBill(dinnertableid);
@@ -122,6 +130,11 @@ public class BillService implements BillDAOImp {
 	public int thongkeSoHoaDonTrongThang(int thang) {
 		// TODO Auto-generated method stub
 		return billDAO.thongkeSoHoaDonTrongThang(thang);
+	}
+
+	@Override
+	public List<BillDetailDTO> converterBillDetail(Set<Billdetail> billdetail) {
+		return billDAO.converterBillDetail(billdetail);
 	}
 
 }

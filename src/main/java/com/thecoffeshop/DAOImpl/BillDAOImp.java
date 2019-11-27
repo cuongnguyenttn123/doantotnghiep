@@ -1,9 +1,12 @@
 package com.thecoffeshop.DAOImpl;
 
+import com.thecoffeshop.DTO.BillDetailDTO;
 import com.thecoffeshop.entity.Bill;
+import com.thecoffeshop.entity.Billdetail;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 public interface BillDAOImp extends CommonDAOImp {
@@ -27,6 +30,7 @@ public interface BillDAOImp extends CommonDAOImp {
 	public Boolean checkExistDinnerTable(int dinnertableid);
 
 	public int getTotalPriceOfBill(int billid);
+	public int getTotalPriceOfBill2(Bill bill);
 
 	public Bill getInfoLastBill(int dinnertableid);
 
@@ -44,4 +48,6 @@ public interface BillDAOImp extends CommonDAOImp {
 	public int thongkeTongTienTrongThang(int thang);
 
 	public int thongkeSoHoaDonTrongThang(int thang);
+
+	public List<BillDetailDTO> converterBillDetail(Set<Billdetail> billdetail);
 }

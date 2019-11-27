@@ -187,27 +187,7 @@
 								class="icon-home menu-icon"></i> <span class="menu-title">TRANG
 									CHỦ</span>
 						</a></li>
-						<li class="nav-item"><a class="nav-link collapsed"
-							data-toggle="collapse" href="#ui-basic" aria-expanded="false"
-							aria-controls="ui-basic"> <i class="icon-chart menu-icon"></i>
-								<span class="menu-title">THỐNG KÊ DOANH THU </span>
-						</a>
-							<div class="collapse" id="ui-basic" style="">
-								<ul class="nav flex-column sub-menu">
-									<li class="nav-item"><a class="nav-link"
-										href="/admin/statistic-profit"> <span
-											class="menu-title">Thu chi</span>
-									</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="pages/icons/font-awesome.html"> <span
-											class="menu-title">Sản phẩm bán ra</span>
-									</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="pages/icons/font-awesome.html"> <span
-											class="menu-title">Hóa đơn</span>
-									</a></li>
-								</ul>
-							</div></li>
+
 						<li class="nav-item"><a class="nav-link collapsed"
 							data-toggle="collapse" href="#ui-basic1" aria-expanded="false"
 							aria-controls="ui-basic1"> <i class="icon-handbag menu-icon"></i>
@@ -300,6 +280,27 @@
 									<li class="nav-item"><a href="/admin/table-status"
 										class="nav-link"> <span class="menu-title">Trạng
 												thái bàn</span>
+									</a></li>
+								</ul>
+							</div></li>
+						<li class="nav-item"><a class="nav-link collapsed"
+												data-toggle="collapse" href="#ui-basic" aria-expanded="false"
+												aria-controls="ui-basic"> <i class="icon-chart menu-icon"></i>
+							<span class="menu-title">THỐNG KÊ DOANH THU </span>
+						</a>
+							<div class="collapse" id="ui-basic" style="">
+								<ul class="nav flex-column sub-menu">
+									<li class="nav-item"><a class="nav-link"
+															href="/admin/statistic-profit"> <span
+											class="menu-title">Thu chi</span>
+									</a></li>
+									<li class="nav-item"><a class="nav-link"
+															href="pages/icons/font-awesome.html"> <span
+											class="menu-title">Sản phẩm bán ra</span>
+									</a></li>
+									<li class="nav-item"><a class="nav-link"
+															href="pages/icons/font-awesome.html"> <span
+											class="menu-title">Hóa đơn</span>
 									</a></li>
 								</ul>
 							</div></li>

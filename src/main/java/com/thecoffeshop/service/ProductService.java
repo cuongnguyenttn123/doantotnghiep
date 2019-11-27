@@ -58,6 +58,11 @@ public class ProductService implements ProductDAOImp {
 	}
 
 	@Override
+	public int getSizePage() {
+		return productDAO.getSizePage();
+	}
+
+	@Override
 	public List<Product> findAll() {
 		// TODO Auto-generated method stub
 		return productDAO.findAll();

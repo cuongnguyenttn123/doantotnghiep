@@ -78,12 +78,12 @@ public class ExportbillDAO implements ExportbillDAOImp {
 	@Override
 	public int totalQuantityProduct(String productid) {
 		List<Exportbill> exportbills;
-		int total = 0;
+		Integer total = 0;
 		try {
 			exportbills = exportbillRepository.totalQuantityProduct(productid, 0, this.IS_NOT_DELETE);
 			if (exportbills.size()>0){
 				for (Exportbill exportbill : exportbills) {
-					total += exportbill.getQuantityInventory();
+					total += exportbill.getQuantity();
 				}
 			}
 		}catch (Exception e){

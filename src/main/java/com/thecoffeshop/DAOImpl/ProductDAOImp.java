@@ -25,4 +25,6 @@ public interface ProductDAOImp extends CommonDAOImp {
 	public Boolean deleteProduct(String productid);
 
 	public Boolean editProduct(Product product);
+
+	public int getSizePage();
 }

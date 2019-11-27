@@ -191,4 +191,9 @@ public class ProductDAO implements ProductDAOImp {
 		}
 		return aBoolean;
 	}
+
+	@Override
+	public int getSizePage() {
+		return productRepository.getSizePage(this.IS_NOT_DELETE);
+	}
 }

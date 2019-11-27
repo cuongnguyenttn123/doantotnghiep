@@ -84,14 +84,14 @@ public class IndexAdminController extends Common {
 		if (inputSearch == "") {
 			inputSearch = null;
 		}
-
-		if (dinnertableService.getInfoById(Integer.valueOf(dinnertableid.trim())) == null) {
+		Dinnertable dinnertable = dinnertableService.getInfoById(Integer.valueOf(dinnertableid.trim()));
+		if (dinnertable == null) {
 			modelMap.addAttribute("results", "Bàn này không tồn tại!");
 			return "/admin/public/Danger";
 		}
-		List<Product> products1 = productService.findAll();
-		int totalPage = products1.size() / super.MAX_RESULTS;
-		if ((products1.size() % super.MAX_RESULTS) > 0) {
+		int getSizePage = productService.getSizePage();
+		int totalPage = getSizePage / super.MAX_RESULTS;
+		if ((getSizePage % super.MAX_RESULTS) > 0) {
 			totalPage++;
 		}
 		modelMap.addAttribute("totalPage", totalPage);
@@ -115,14 +115,19 @@ public class IndexAdminController extends Common {
 
 		// list product
 		Bill bill = billService.getInfoLastBill(Integer.valueOf(dinnertableid.trim()));
+		Set<Billdetail> billdetailList = null;
+		int totalPriceBill = 0;
+		if (bill != null){
+			totalPriceBill = billService.getTotalPriceOfBill2(bill);
+			billdetailList =  bill.getBilldetails();
+		}
 		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
 		for (Product product : products) {
 			ProductDTO dto = new ProductDTO();
 			dto.setProductid(product.getProductid());
 			dto.setName(product.getName());
 			if (bill != null) {
-				Billdetail billdetail = billdetailService
-						.getInfoBilldetailByBilldetailId(new BilldetailId(product.getProductid(), bill.getBillid()));
+				Billdetail billdetail = getBillDetailByList(billdetailList, new BilldetailId(product.getProductid(), bill.getBillid()));
 				if (billdetail != null) {
 					int quantity = billdetail.getQuantity();
 					dto.setQuantityInventory(quantity);
@@ -142,33 +147,14 @@ public class IndexAdminController extends Common {
 		modelMap.addAttribute("productDTOs", productDTOs);
 
 		// chi tiết hóa đơn
-		Dinnertable dinnertable = dinnertableService.getInfoById(Integer.valueOf(dinnertableid.trim()));
+
 		modelMap.addAttribute("dinnertable", dinnertable);
 
 		if (bill != null) {
 			modelMap.addAttribute("billid", bill.getBillid());
 			modelMap.addAttribute("billSTARTDATETIME", bill.getStartdatetime());
-			modelMap.addAttribute("totalPriceBill", billService.getTotalPriceOfBill(bill.getBillid()));
-
-			List<Billdetail> billdetails = billdetailService.getInfoBilldetailByBillId(bill.getBillid());
-			List<BillDetailDTO> dtos = new ArrayList<BillDetailDTO>();
-			for (Billdetail billdetail : billdetails) {
-
-				BillDetailDTO dto = new BillDetailDTO();
-				String productid = billdetail.getProduct().getProductid();
-				String name = billdetail.getProduct().getName();
-				dto.setProductid(productid);
-				dto.setName(name);
-
-				dto.setQuantity(billdetail.getQuantity());
-				int SinglePrice = billdetailService.getSinglePriceOfBillDetail(productid, bill.getStartdatetime());
-				int TotalPrice = billdetailService.getPriceOfBillDetail(new BilldetailId(productid, bill.getBillid()));
-				dto.setSinglePrice(SinglePrice);
-				dto.setTotalPrice(TotalPrice);
-
-				dtos.add(dto);
-			}
-
+			modelMap.addAttribute("totalPriceBill", totalPriceBill);
+			List<BillDetailDTO> dtos = billService.converterBillDetail(billdetailList);
 			modelMap.addAttribute("dtos", dtos);
 		}
 
@@ -202,13 +188,13 @@ public class IndexAdminController extends Common {
 		resultOLD.addProperty("id", dinnertable.getTablestatus().getTablestatusid());
 		resultOLD.addProperty("name", dinnertable.getTablestatus().getName());
 		jsonObjects.add(resultOLD);
-
-		dinnertable2.setTablestatus(new Tablestatus(dinnertable.getTablestatus().getTablestatusid()));
+		Tablestatus tablestatus2 = bill.getDinnertable().getTablestatus();
+		dinnertable2.setTablestatus(tablestatus2);
 		dinnertableService.editDinnertable(dinnertable2);
 //		// Đổi trạng thái bàn cũ thành đang trống
-
-		dinnertable.setDinnertableid(5);
-		dinnertableService.editDinnertable(dinnertable);
+		Tablestatus tablestatus = tablestatusService.getInfoById(5);
+		dinnertable.setTablestatus(tablestatus);
+		Boolean aBoolean = dinnertableService.editDinnertable(dinnertable);
 
 		JsonObject resultNEW = new JsonObject();
 		resultNEW.addProperty("id", 5);
@@ -216,7 +202,7 @@ public class IndexAdminController extends Common {
 		jsonObjects.add(resultNEW);
 //		
 //		// Cập nhật hóa đơn của bàn -> bàn mới
-		bill.setDinnertable(new Dinnertable(Integer.valueOf(dinnertableid.trim())));
+		bill.setDinnertable(dinnertable2);
 		billService.editBill(bill);
 
 		return jsonObjects.toString();
@@ -243,7 +229,7 @@ public class IndexAdminController extends Common {
 		JsonObject result = new JsonObject();
 		result.addProperty("id", tablestatus.getTablestatusid());
 		result.addProperty("name", tablestatus.getName());
-		result.addProperty("mes", "Cập nhật trạng thái bàn thành công!");
+		result.addProperty("mes", "Câp nhât trang thái bàn thành công!");
 		return result.toString();
 //		return "{\"nameTableStatus\":\"" + tablestatus.getName() + "\", \"class\":\"badge badge-success\",\"mes\":\"Cập nhật trạng thái bàn thành công!\"}";
 	}
@@ -278,10 +264,7 @@ public class IndexAdminController extends Common {
 				productid = product.get("productid").asText();
 				quantity = product.get("quantity").asInt();
 				/* check */
-				if (productService.getInfoById(productid) == null) {
-					modelMap.addAttribute("results", "Sản phẩm này không tồn tại!");
-					return "/admin/public/Danger";
-				}
+
 				if (quantity < 0) {
 					modelMap.addAttribute("results", "Số lượng không đúng!");
 					return "/admin/public/Danger";
@@ -289,22 +272,12 @@ public class IndexAdminController extends Common {
 				/* check[END] */
 
 				if (quantity > 0) {
-					Billdetail billdetail = billdetailService
-							.getInfoBilldetailByBilldetailId(new BilldetailId(productid, lastBillId));
-					if (billdetail == null) {
-						// chưa có -> thêm mới
-						billdetail = new Billdetail();
-						billdetail.setId(new BilldetailId(productid, lastBillId));
-						billdetail.setQuantity(quantity);
-						billdetail.setUpdateat(new Date());
-						billdetail.setIsdelete(IS_NOT_DELETE);
-						billdetailService.addBilldetail(billdetail);
-					} else {
-						billdetail.setQuantity(quantity);
-						billdetail.setUpdateat(new Date());
-						billdetailService.editBilldetail(billdetail);
-
-					}
+					Billdetail billdetail = new Billdetail();
+					billdetail.setId(new BilldetailId(productid, lastBillId));
+					billdetail.setQuantity(quantity);
+					billdetail.setUpdateat(new Date());
+					billdetail.setIsdelete(IS_NOT_DELETE);
+					Boolean aBoolean = billdetailService.addBilldetail(billdetail);
 				}
 			}
 
@@ -334,14 +307,10 @@ public class IndexAdminController extends Common {
 			}
 		}
 
-		bill.setUpdateat(new Date());
-		bill.setBillstatus(new Billstatus("DTT"));
-		bill.setEnddate(new Date());
-		bill.setUpdateat(new Date());
-		billService.editBill(bill);
+
 
 		// trừ sản phẩm trong kho
-		List<Billdetail> billdetails = billdetailService.getInfoBilldetailByBillId(Integer.valueOf(billid));
+		Set<Billdetail> billdetails = bill.getBilldetails();
 		List<String> results = new ArrayList<String>();
 		for (Billdetail billdetail : billdetails) {
 			String productid = billdetail.getProduct().getProductid();
@@ -375,7 +344,15 @@ public class IndexAdminController extends Common {
 				}
 			}
 		}
-
+		bill.setUpdateat(new Date());
+		bill.setBillstatus(new Billstatus("DTT"));
+		bill.setEnddate(new Date());
+		bill.setUpdateat(new Date());
+		billService.editBill(bill);
+		Dinnertable dinnertable = bill.getDinnertable();
+		Tablestatus tablestatus = tablestatusService.getInfoById(5);
+		dinnertable.setTablestatus(tablestatus);
+		Boolean aBoolean = dinnertableService.editDinnertable(dinnertable);
 		modelMap.addAttribute("result", "Thanh toán thành công!");
 		return "/admin/public/Success"; // thành công
 	}
@@ -432,6 +409,27 @@ public class IndexAdminController extends Common {
 		result.addProperty("totalPriceNEW", (int)(totalPriceBill - discount));
 
 		return result.toString();
+	}
+
+	public Billdetail getBillDetailByList(Set<Billdetail> billdetailList, BilldetailId billdetailId){
+		Billdetail billdetail = null;
+		for (Billdetail billdetail1: billdetailList) {
+			if (billdetailId.equals(billdetail1.getId())){
+				billdetail = billdetail1;
+			}
+		}
+		return billdetail;
+	};
+
+	public List<Dinnertable> dsBanTrong(List<Dinnertable> dinnertableList){
+		List<Dinnertable> dinnertables = new ArrayList<>();
+		for (Dinnertable dinnertable: dinnertableList
+			 ) {
+			if (dinnertable.getTablestatus().getTablestatusid() == 5){
+				dinnertables.add(dinnertable);
+			}
+		}
+		return dinnertables;
 	}
 
 }

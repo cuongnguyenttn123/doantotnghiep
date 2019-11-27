@@ -50,14 +50,15 @@ public class BilldetailDAO implements BilldetailDAOImp {
     }
 
     @Override
+    @Transactional
     public Billdetail getInfoBilldetailByBilldetailId(BilldetailId billdetailId) {
         Billdetail billdetail;
         try{
             billdetail = billdetailRepository.findById(billdetailId).get();
         }catch (Exception e){
+            billdetail = null;
             e.printStackTrace();
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            billdetail = null;
         }
         return billdetail;
     }

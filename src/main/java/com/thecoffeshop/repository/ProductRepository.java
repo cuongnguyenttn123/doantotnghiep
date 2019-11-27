@@ -26,4 +26,8 @@ public interface ProductRepository extends JpaRepository<Product, String>, JpaSp
     @Query(value = "select * from product c where c.name = ?1 and c.isdelete = ?2",
             nativeQuery = true)
     Product checkExistNameProduct(String name, Boolean aBoolean);
+
+    @Query(value = "select count(*) from product c where c.isdelete = ?1",
+            nativeQuery = true)
+    int getSizePage(Boolean aBoolean);
 }

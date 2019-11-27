@@ -14,12 +14,10 @@
 			</c:if>
 			
 		</td>
-		<td><c:out value="${dto.getImportbill().getImportbillid()}" /></td>
 		<td><c:out value="${dto.getSupplier().getName()}" /></td>
 		<td><c:out value="${dto.getCountBillDetail()}" /></td>
 		<td><c:out value="${dto.getEmployee().getName()}" /></td>
-		<td class="text-danger"><c:out
-				value="${dto.getImportbill().getUpdateat()}" /></td>
+
 	</tr>
 </c:forEach>
 <script src="../resouces/ajax-jquery/warehouse/import-material/import-bill-add.js"></script>

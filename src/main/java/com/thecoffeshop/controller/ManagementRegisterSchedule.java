@@ -66,7 +66,7 @@ public class ManagementRegisterSchedule extends Common {
 			JsonNode jsonArray = jsonObject.get("listRegister");
 			Calendar c = Calendar.getInstance();
 			int now = c.get(Calendar.DAY_OF_WEEK);
-			c.roll(c.DAY_OF_MONTH, 8 - now);
+			c.add(c.DAY_OF_MONTH, 8 - now);
 			for (JsonNode register : jsonArray) {
 
 				int day = register.get("day").asInt();

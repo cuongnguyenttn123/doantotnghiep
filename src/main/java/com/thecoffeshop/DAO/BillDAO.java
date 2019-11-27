@@ -1,9 +1,11 @@
 package com.thecoffeshop.DAO;
 
 import com.thecoffeshop.DAOImpl.BillDAOImp;
+import com.thecoffeshop.DTO.BillDetailDTO;
 import com.thecoffeshop.entity.Bill;
 import com.thecoffeshop.entity.Billdetail;
 import com.thecoffeshop.entity.BilldetailId;
+import com.thecoffeshop.entity.Price;
 import com.thecoffeshop.repository.BillRepository;
 import com.thecoffeshop.service.BilldetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import javax.persistence.EntityManagerFactory;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -170,7 +173,24 @@ public class BillDAO implements BillDAOImp {
             return 0;
         }
     }
-
+    @Override
+    @Transactional
+    public int getTotalPriceOfBill2(Bill bill){
+        try {
+            Bill bill1 = bill;
+            int totalPrice = 0;
+            for (Billdetail billdetail : bill.getBilldetails()) {
+                String productId = billdetail.getProduct().getProductid();
+                //int price = billdetailService.getPriceOfBillDetail(new BilldetailId(productId, bill.getBillid()));
+                int price = getPriceBySet(billdetail.getProduct().getPrices());
+                totalPrice += price;
+            }
+            return totalPrice;
+        }catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return 0;
+        }
+    }
     @Override
     public Bill getInfoLastBill(int dinnertableid) {
 
@@ -288,5 +308,42 @@ public class BillDAO implements BillDAOImp {
 
             return 0;
         }
+    }
+
+    @Override
+    public List<BillDetailDTO> converterBillDetail(Set<Billdetail> billdetailSet) {
+        List<BillDetailDTO> billDetailDTOS = new ArrayList<BillDetailDTO>();
+        for (Billdetail billdetail : billdetailSet) {
+            BillDetailDTO dto = new BillDetailDTO();
+            String productid = billdetail.getProduct().getProductid();
+            String name = billdetail.getProduct().getName();
+            dto.setProductid(productid);
+            dto.setName(name);
+
+            dto.setQuantity(billdetail.getQuantity());
+            int SinglePrice = getPriceBySet(billdetail.getProduct().getPrices());
+            int TotalPrice = billdetail.getQuantity()*SinglePrice;
+            dto.setSinglePrice(SinglePrice);
+            dto.setTotalPrice(TotalPrice);
+            billDetailDTOS.add(dto);
+        }
+        return billDetailDTOS;
+    }
+
+    public int getPriceBySet(Set<Price> priceSet){
+        Price price = null;
+        int i = 0;
+        for (Price  price1: priceSet) {
+            if (i == 0){
+                price = price1;
+            }else {
+                if (price.getStartdatetime().before(price1.getStartdatetime())){
+                    price = price1;
+                }
+            }
+            i++;
+
+        }
+        return price.getPrice();
     }
 }
